@@ -1,0 +1,18 @@
+{% extends "Reg/baselayout.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="jumbotron">
+
+
+
+        <img src="{{image_url.url}}" width="400" height="400">
+
+        <h4>welcome {{user.username}}</h4>
+<a href="{% url 'logout' %}"><button>Logout</button></a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "Reg/baselayout.html" %}
+
+{% block title %}SIGNUP {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h3>SIGNUP </h3>
+        {% if error_message %}
+        <h4 style="color:red;">{{error_message}}</h4>
+        {% endif %}
+<form method="post" action="{% url 'validate_register' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+<table style="border-collapse:separate;border-spacing:15px 15px;" >
+
+
+        <tr><td>first name</td>  <td><input type="text" name="firstname" value="{{valuedict.fname}}"> </td></tr>
+    <tr><td>second name</td>  <td><input type="text" name="secondname" value="{{valuedict.sname}}"> </td></tr>
+    <tr> <td>Email id</td>  <td><input type="text" name="email" value="{{valuedict.mail}}"> </td></tr>
+    <tr><td>contact</td>  <td><input type="text" name="contact" value="{{valuedict.contact}}"> </td></tr>
+    <tr><td>username</td>  <td><input type="text" name="username" value="{{valuedict.username}}"> </td></tr>
+    <tr><td>password</td>  <td><input type="password" name="password" > </td></tr>
+    <tr><td>confirm password</td>  <td><input type="password" name="confirm"> </td></tr>
+    <tr><td>Profile Pic</td>   <td><input type="file" name="profile_pic">   </td></tr>
+    <tr><td> </td> <td><input type="submit"></td></tr>
+
+</table>
+</form>
+    </div>
+</div>
+{% endblock %}

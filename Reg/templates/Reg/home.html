@@ -1,0 +1,14 @@
+
+
+{% extends "Reg/baselayout.html" %}
+{% block content %}
+<div class="container">
+
+    <div class="jumbotron">
+        <h3>Welcome To Django Sign In/Sign UP </h3>
+      <br>  <a href="{% url 'login' %}" ><button > SIGN IN</button></a> New User? <a href="{% url 'Register' %}"><button>SIGNUP</button></a>
+
+    </div>
+</div>
+
+{% endblock %}

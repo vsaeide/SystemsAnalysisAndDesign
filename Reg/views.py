@@ -15,6 +15,9 @@ def signup(request):
 def validate_register(request):
 
 
+    print("validate data")
+
+
     username = request.POST.get('username')
     mail = request.POST.get('email')
     pwd = request.POST.get('password')
@@ -88,7 +91,7 @@ def validate_register(request):
 
     if can_proceed == True:
 
-        return render(request,'Reg/login.html',context={})
+        return render(request,'Reg/signup.html',context={})
 
     else:
 

@@ -10,6 +10,7 @@ def login(request):
     return render(request,'Reg/login.html',context={})
 
 def signup(request):
+    print("Hello im in signup in view")
     return render(request,'Reg/signup.html',context={})
 
 def validate_register(request):

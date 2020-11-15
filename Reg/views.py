@@ -2,80 +2,59 @@ from django.shortcuts import render
 import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from .models import UserProfile
+from .models import UserVip,UserRegular,Post
 from django.contrib.auth.models import User
 
-def home(request):
-    return render(request,'Reg/home.html',context={})
 
-def register_page(request):
-    return render(request,'Reg/Register.html',context={})
+def login(request):
+    return render(request,'Reg/login.html',context={})
+
+def signup(request):
+    return render(request,'Reg/signup.html',context={})
 
 def validate_register(request):
 
-    fname = request.POST.get('firstname')
-    sname = request.POST.get('secondname')
-    mail = request.POST.get('email')
-    contact = request.POST.get('contact')
+
     username = request.POST.get('username')
+    mail = request.POST.get('email')
     pwd = request.POST.get('password')
-    confirm_pwd =request.POST.get('confirm')
+    type = request.POST.get('type')
+    # confirm_pwd =request.POST.get('confirm')
 
     fieldvalue_dict = {}
-    fieldvalue_dict["fname"]=fname
-    fieldvalue_dict["sname"]=sname
-    fieldvalue_dict["mail"] = mail
-    fieldvalue_dict["contact"] = contact
+    # fieldvalue_dict["fname"]=fname
+    # fieldvalue_dict["sname"]=sname
     fieldvalue_dict["username"] = username
+    fieldvalue_dict["mail"] = mail
     fieldvalue_dict["pwd"] = pwd
-
+    fieldvalue_dict["type"] = type
 
 
     can_proceed = True
     error_message = ''
 
-    if not fname.strip():
-        can_proceed = False
-        error_message = 'Please enter  first name.'
-    if not sname.strip() and can_proceed == True:
-        can_proceed = False
-        error_message = 'Please enter  second name.'
-
-    if not mail.strip() and can_proceed == True:
-        can_proceed = False
-        error_message = 'Please enter Emailid.'
-
-    if not contact.strip() and can_proceed == True:
-        can_proceed = False
-        error_message = 'Please enter contact number.'
-
-    if not username.strip() and can_proceed == True:
+    if not username.strip() :
         can_proceed = False
         error_message = 'Please enter Username.'
+
+    if not mail.strip():
+        can_proceed = False
+        error_message = 'Please enter your  Email.'
 
     if not pwd.strip() and can_proceed == True:
         can_proceed = False
         error_message = 'Please enter password.'
 
-    if not confirm_pwd.strip() and can_proceed == True:
-        can_proceed = False
-        error_message = 'Please confirm password.'
+    # if not confirm_pwd.strip() and can_proceed == True:
+    #     can_proceed = False
+    #     error_message = 'Please confirm password.'
 
-    profile_picture = request.FILES
-
-    print(profile_picture)
-
-    if 'profile_pic' in profile_picture.keys():
-        print('profile pic exists.')
-
-    else:
-        print('no pic.')
-        profile_picture = None
-        can_proceed = False
 
     if can_proceed == True :
 
         user_by_user_name = None
+        user_by_email=None
+
         try:
             user_by_user_name = User.objects.get(username=username)
         except:
@@ -89,33 +68,30 @@ def validate_register(request):
         if can_proceed == True:
 
             try:
-
                 user_by_email = User.objects.get(email=mail)
             except:
                 can_proceed = True
 
-            if user_by_user_name:
-                can_proceed = False
-                error_message = 'Email id already exists.'
+        if user_by_user_name:
+            can_proceed = False
+            error_message = 'this Email already exists.'
 
         if can_proceed == True:
 
-            pic = request.FILES['profile_pic']
-
-            user = User.objects.create_user(username=username,email=mail,password=pwd,first_name=fname,last_name=sname)
-            user_profile = UserProfile.objects.create(phone_no=contact, profile_pic= pic,user =user)
+            user = User.objects.create_user(username=username,email=mail,password=pwd)
+            if type=="vip":
+                user_vip = UserVip.objects.create(user =user)
+                user_vip.save()
+            else:
+                user_regular=UserRegular.objects.create(user =user)
+                user_regular.save()
 
     if can_proceed == True:
 
-        return render(request,'Reg/home.html',context={})
+        return render(request,'Reg/login.html',context={})
 
     else:
 
-        return render(request,'Reg/Register.html',context={'error_message':error_message,'valuedict':fieldvalue_dict})
+        return render(request,'Reg/signup.html',context={'error_message':error_message,'valuedict':fieldvalue_dict})
 
 
-def userprofile_page(request):
-
-    pic_url = request.user.user_profile.profile_pic
-
-    return render(request,'Reg/userprofile.html',context={'image_url':pic_url})

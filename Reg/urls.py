@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import home,register_page,validate_register,userprofile_page
+from .views import validate_register,login,signup
 
 urlpatterns = [
-    path('home',home,name='home'),
-    path('register',register_page,name='Register'),
-    path('valreg',validate_register,name='validate_register'),
-    path('userprofile',userprofile_page,name='user_profile'),
+    path('login/',login,name='home'),
+    path('register/',validate_register,name='Register'),
+    path('signup/', signup, name='signup'),
+    #path('validate/',validate_register,name='validate_register'),
+    #path('validate/', validate_register, name='validate_register'),
+    #path('userprofile',userprofile_page,name='user_profile'),
 ]

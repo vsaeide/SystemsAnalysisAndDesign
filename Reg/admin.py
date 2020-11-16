@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import UserVip,UserRegular,Post
+from Reg.models import Profile,Post
 
-admin.site.register(UserVip)
-admin.site.register(UserRegular)
+admin.site.register(Profile)
+# admin.site.register(RegularProfile)
+admin.site.register(Post)

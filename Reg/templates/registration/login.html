@@ -40,7 +40,8 @@
     
 
         <div class = 'container jumbotron' id = "form">
-        <form>
+        <form method="post">
+			{% csrf_token %}
             <div class="form-group">
                 <label for="InputUsername">نام کاربری</label>
                 <input type="username" class="form-control" id="username">
@@ -59,6 +60,5 @@
         </form>
     </div>
 
-    <script src="login js.js"></script>
   </body>
 </html>
